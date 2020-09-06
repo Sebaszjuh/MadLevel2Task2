@@ -27,7 +27,12 @@ class MainActivity : AppCompatActivity() {
     fun initViews() {
         binding.btnAdd.setOnClickListener {
             val question = binding.inputQuestion.text.toString()
-            addQuestion(question)
+            var isTrue = false
+            if(binding.isTrueBtn.isPressed){
+                isTrue = true
+            }
+
+            addQuestion(question, isTrue)
         }
         binding.listQuestions.layoutManager =
                 LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
@@ -41,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         createItemTouchHelper().attachToRecyclerView(listQuestions)
     }
 
-    private fun addQuestion(question: String) {
+    private fun addQuestion(question: String, isTrue: Boolean) {
         if (question.isNotBlank()) {
-            questions.add(Question(question))
+            questions.add(Question(question, isTrue))
             questionAdapter.notifyDataSetChanged()
             binding.inputQuestion.text?.clear()
         } else {
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createItemTouchHelper(): ItemTouchHelper {
-        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onMove(
                     recyclerView: RecyclerView,

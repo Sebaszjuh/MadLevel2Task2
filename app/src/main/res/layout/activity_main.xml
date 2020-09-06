@@ -41,30 +41,33 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/inputLayout"
-        app:layout_constraintTop_toBottomOf="@id/listQuestions"
-        app:layout_constraintVertical_bias="0.50" />
+        app:layout_constraintStart_toEndOf="@id/isTrueBtn"
+        app:layout_constraintTop_toBottomOf="@+id/listQuestions" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayout"
-        android:layout_width="305dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+        app:layout_constraintEnd_toStartOf="@id/isTrueBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listQuestions">
+        app:layout_constraintTop_toBottomOf="@+id/listQuestions"
+        app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Add question" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -72,12 +75,27 @@
         android:layout_width="409dp"
         android:layout_height="599dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/instruction2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/inputLayout"
+        app:layout_constraintVertical_bias="0.51" />
+
+    <ToggleButton
+        android:id="@+id/isTrueBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:checked="true"
+        android:textOff="False"
+        android:textOn="True"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnAdd"
+        app:layout_constraintStart_toEndOf="@id/inputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/listQuestions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
