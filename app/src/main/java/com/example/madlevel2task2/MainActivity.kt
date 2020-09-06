@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.madlevel2task2.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.inputQuestion
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,20 +29,20 @@ class MainActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener {
             val question = binding.inputQuestion.text.toString()
             var isTrue = false
-            if(binding.isTrueBtn.isPressed){
+            if (binding.isTrueBtn.isChecked) {
                 isTrue = true
             }
 
             addQuestion(question, isTrue)
         }
         binding.listQuestions.layoutManager =
-                LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
         binding.listQuestions.adapter = questionAdapter
         binding.listQuestions.addItemDecoration(
-                DividerItemDecoration(
-                        this@MainActivity,
-                        DividerItemDecoration.VERTICAL
-                )
+            DividerItemDecoration(
+                this@MainActivity,
+                DividerItemDecoration.VERTICAL
+            )
         )
         createItemTouchHelper().attachToRecyclerView(listQuestions)
     }
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             binding.inputQuestion.text?.clear()
         } else {
             Snackbar.make(inputQuestion, "You must fill in the input field!", Snackbar.LENGTH_SHORT)
-                    .show()
+                .show()
         }
     }
 
@@ -61,17 +62,42 @@ class MainActivity : AppCompatActivity() {
         val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
             ): Boolean {
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                questions.removeAt(position)
-                questionAdapter.notifyDataSetChanged()
+                if (direction == ItemTouchHelper.LEFT) {
+                    if (!questions[position].isTrue) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    } else {
+                        Snackbar.make(
+                            inputQuestion,
+                            "Wrong, will not be removed",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                }
+                if(direction == ItemTouchHelper.RIGHT){
+                    if (questions[position].isTrue) {
+                        questions.removeAt(position)
+                        questionAdapter.notifyDataSetChanged()
+                    } else {
+                        Snackbar.make(
+                            inputQuestion,
+                            "Wrong, will not be removed",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        questionAdapter.notifyDataSetChanged()
+                    }
+                }
+
             }
         }
         return ItemTouchHelper(callback)
